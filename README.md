@@ -1,5 +1,35 @@
 # TheOutsider
 
+An Amiga intro from **1989**, made for the Italian group **The Outsider** by the **VIC&SONS group**: code by **Dr. Maurice**, graphics by **Vincent**. It runs on an OCS Amiga 500 with Kickstart 1.3 and fits on one screen:
+
+- four **VU meters** at the top, made only with copper colour changes, that follow the four audio channels;
+- the chrome **"OUTSIDER" logo** in 16 colours, which wobbles horizontally line by line (a sine table drives `BPLCON1` through the copper);
+- an **"ITALY" bar** in the colours of the Italian flag that bounces up and down;
+- a **scroller** with a large 32×34 pixel chrome font, carrying greetings to the groups and BBSes of the time (Robocop BBS, Quartex, Freestyle UK…);
+- the credits line *"THIS INTRO WAS DONE BY VIC&SONS GROUP"* at the bottom;
+- a 4-channel music cover of a 1989 hit (see [Music](#music)).
+
+<p align="center">
+  <img src="docs/screenshots/outsider_1.png" width="45%" alt="The Outsider intro: logo and scroller">
+  <img src="docs/screenshots/outsider_2.png" width="45%" alt="The Outsider intro: VU meters, ITALY bar and scroller">
+</p>
+
+The repository contains:
+
+- the original packed executable ([THE_OUTSIDER](THE_OUTSIDER)) and its disassembly;
+- the unpacked image (`dec/unpacked_32250.*`);
+- a **relocatable rebuild** that assembles with vasm and has the protections removed: [dec/outsider.asm](dec/outsider.asm). It runs on A500, A600 and A1200 (fixes for ECS/AGA and for faster CPUs are included);
+- the extracted **assets** in [dec/assets](dec/assets): module, images, font, scrolltext.
+
+Build and run (requires vasm, exe2adf and FS-UAE):
+
+```sh
+make            # build/outsider + build/outsider.adf
+make run        # A500, KS 1.3, 512K chip + 512K slow
+make run600     # A600, KS 2.05
+make run1200    # A1200, KS 3.1
+```
+
 ## Music
 
 The music is a 4-channel cover of **"She Drives Me Crazy" by Fine Young Cannibals** ([official video](https://www.youtube.com/watch?v=UtvmTu4zAMg)), the 1989 hit from *The Raw and the Cooked*, released the same year as the intro. The module title is "vincent&maurice". The sample names carry a message from the authors: *"ecco la nuova musica del vic & sons group, contattateci per intro e musiche originali!! tel.02.48600137 tel.02.4582806 greetings to: F.P.L, THE OUTSIDER, e quel rinc...di ALPHABIT"*. The arrangement keeps the song's loop in D major (**D – G – Bm – A**, one chord every 16 rows). Bass and chord stabs play on samples 15/12 and 6, the lead melody on samples 14/13, and the drums (kick, snare, hi-hat on every row) never stop. There are 13 patterns played in 23 positions, about 2:56 before the song loops.
