@@ -21,6 +21,13 @@ The repository contains:
 - a **relocatable rebuild** that assembles with vasm and has the protections removed: [dec/outsider.asm](dec/outsider.asm). It runs on A500, A600 and A1200 (fixes for ECS/AGA and for faster CPUs are included);
 - the extracted **assets** in [dec/assets](dec/assets): module, images, font, scrolltext.
 
+Ready-made files from the relocatable rebuild are in [bin/](bin):
+
+- [bin/outsider](bin/outsider): AmigaDOS executable, to run from the CLI or a startup-sequence;
+- [bin/outsider.adf](bin/outsider.adf): bootable disk image that starts the intro.
+
+Both were tested in FS-UAE on A500 (KS 1.3, 512K chip + 512K slow), A600 (KS 2.05, 1MB chip) and A1200 (KS 3.1, 2MB chip). On all three the main loop runs once per frame and the music player is called once per frame, exactly as on the A500. The left mouse button returns to the CLI.
+
 Build and run (requires vasm, exe2adf and FS-UAE):
 
 ```sh
@@ -28,6 +35,7 @@ make            # build/outsider + build/outsider.adf
 make run        # A500, KS 1.3, 512K chip + 512K slow
 make run600     # A600, KS 2.05
 make run1200    # A1200, KS 3.1
+make release    # update bin/ with the current build
 ```
 
 ## Music

@@ -4,6 +4,7 @@
 #   make run    -> start FS-UAE (A500, KS1.3, 512K chip + 512K slow) on the ADF
 #   make run600 -> A600, KS2.05, 1MB chip
 #   make run1200-> A1200, KS3.1, 2MB chip
+#   make release-> copy the executable and the ADF into bin/ (tracked in git)
 #   make clean
 
 VASM     ?= vasmm68k_mot
@@ -48,7 +49,12 @@ run1200: $(ADF)
 	$(FSUAE) --amiga_model=A1200 --kickstart_file="$(KICK1200)" \
 		--floppy_drive_0="$(abspath $(ADF))" --floppy_drive_speed=0
 
+release: $(EXE) $(ADF)
+	mkdir -p bin
+	cp $(EXE) bin/outsider
+	cp $(ADF) bin/outsider.adf
+
 clean:
 	rm -rf $(BUILD)
 
-.PHONY: all run run600 run1200 clean
+.PHONY: all run run600 run1200 release clean

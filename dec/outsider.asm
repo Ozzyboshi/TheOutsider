@@ -629,9 +629,15 @@ LAB_0072:
 	MOVE.B	#$01,LAB_0045		;32be4: 13fc0001000327b3
 	BSR.W	LAB_0079		;32bec: 610000be
 	CLR.B	LAB_0045		;32bf0: 4239000327b3
-	MOVE.W	#$0190,D0		;32bf6: 303c0190
+; DMA wait before restarting the audio channels. The original was a CPU loop
+; (MOVE.W #$190,D0 / DBF D0,*) lasting ~4000 cycles = ~9 raster lines on a
+; 7 MHz 68000, but much shorter on a 68020 (A1200): wait 9 line changes.
+	MOVEQ	#8,D1			;32bf6
 LAB_0073:
-	DBF	D0,LAB_0073		;32bfa: 51c8fffe
+	MOVE.B	EXT_0009,D0		; VHPOSR (vertical position, low byte)
+.line:	CMP.B	EXT_0009,D0
+	BEQ.S	.line
+	DBF	D1,LAB_0073		;32bfa
 	MOVE.W	#$8000,D0		;32bfe: 303c8000
 	OR.W	LAB_0096,D0		;32c02: 807900032edc
 	MOVE.W	D0,EXT_0010		;32c08: 33c000dff096
